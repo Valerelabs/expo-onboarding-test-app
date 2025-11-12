@@ -688,48 +688,6 @@ However, these trade-offs mean the app is **NOT suitable for production** withou
 - ❌ Limited scalability
 - ❌ Missing production security features
 
-**Recommendation**: Use this as a learning/demonstration tool, and implement proper security measures before any production deployment.
-
-### Future Enhancements
-
-- [x] Registration screen with validation
-- [x] Country code picker for phone numbers
-- [x] Password strength indicator
-- [x] User data persistence with Zustand
-- [x] Unit tests for validation and auth logic
-- [x] Biometric authentication detection (Face ID / Touch ID / Fingerprint)
-- [ ] Full biometric login (auto-login with biometric authentication)
-- [ ] Password reset functionality
-- [ ] Account lockout after failed attempts (requirement: 5 failed attempts)
-- [ ] Remember me functionality
-- [ ] Social login integration (Google, Apple, Facebook)
-- [ ] E2E tests with Detox
-- [ ] Profile editing functionality
-- [ ] Email verification on signup
-- [ ] Two-factor authentication (2FA)
-- [ ] Backend API integration
-- [ ] Real JWT token validation
-- [ ] Password hashing implementation
-
-## Troubleshooting
-
-### Common Issues
-
-**App won't start:**
-
-- Clear cache: `npx expo start -c`
-- Rebuild: `rm -rf node_modules && npm install`
-
-**SecureStore errors:**
-
-- Ensure you're running on a physical device or simulator (not web)
-- Check iOS/Android permissions
-
-**Navigation issues:**
-
-- Clear app data from device
-- Restart the app
-
 ## License
 
 This project is for demonstration purposes.
