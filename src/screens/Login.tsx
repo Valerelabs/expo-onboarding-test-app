@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as LocalAuthentication from "expo-local-authentication";
-import { Button, TextInput } from "../../components";
-import { useAuth } from "../../context/AuthContext";
-import { validateEmail, validatePassword } from "../../utils/auth";
+import { Button, TextInput } from "../components";
+import { useAuth } from "../context/AuthContext";
+import { validateEmail, validatePassword } from "../utils/auth";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<any, "Login">;
 
@@ -49,10 +49,6 @@ export function Login({ navigation }: LoginProps) {
       const compatible = await LocalAuthentication.hasHardwareAsync();
       const enrolled = await LocalAuthentication.isEnrolledAsync();
       const available = compatible && enrolled;
-
-      console.log("compatible", compatible);
-      console.log("enrolled", enrolled);
-      console.log("available", available);
 
       setIsBiometricAvailable(available);
 

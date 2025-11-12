@@ -10,8 +10,8 @@ import {
   useColorScheme,
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, TextInput } from "../../components";
-import { CountryCodePicker } from "../../components/CountryCodePicker";
+import { Button, TextInput } from "../components";
+import { CountryCodePicker } from "../components/CountryCodePicker";
 import {
   validateEmail,
   validatePassword,
@@ -20,13 +20,12 @@ import {
   validateLastName,
   validatePhoneNumber,
   getPasswordStrength,
-} from "../../utils/validation";
-import useAppStore from "../../stores/appStore";
-import useSignupStore from "../../stores/signupStore";
-import { User } from "../../utils/auth";
-import { storeToken, storeUser, generateToken } from "../../utils/auth";
-import { useAuth } from "../../context/AuthContext";
-import callingCodes from "../../utils/callingCodes.json";
+} from "../utils/validation";
+import useAppStore from "../stores/appStore";
+import useSignupStore from "../stores/signupStore";
+import { User } from "../utils/auth";
+import { storeToken, storeUser, generateToken } from "../utils/auth";
+import { useAuth } from "../context/AuthContext";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface Country {

@@ -1,6 +1,6 @@
 import { Text } from "@react-navigation/elements";
 import { StyleSheet, View } from "react-native";
-import { Button } from "../../components";
+import { Button } from "../components";
 
 export function NotFound({ navigation }: { navigation: any }) {
   return (

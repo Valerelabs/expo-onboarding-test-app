@@ -6,8 +6,8 @@ import {
   useColorScheme,
   Alert,
 } from "react-native";
-import { Button } from "../../components";
-import { useAuth } from "../../context/AuthContext";
+import { Button } from "../components";
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
 export function Profile() {

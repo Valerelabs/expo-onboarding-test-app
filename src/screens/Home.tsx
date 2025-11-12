@@ -1,6 +1,6 @@
 import { Text } from "@react-navigation/elements";
 import { StyleSheet, View, ScrollView, useColorScheme } from "react-native";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 export function Home() {
   const { user } = useAuth();
