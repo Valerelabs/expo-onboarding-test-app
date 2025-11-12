@@ -13,14 +13,19 @@
       "bundleIdentifier": "com.testapp",
       "config": {
         "usesNonExemptEncryption": false
-      }
+      },
+      "appleTeamId": "NV7BJK3HYU"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.testapp"
+      "package": "com.testapp",
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
