@@ -1,65 +1,227 @@
-# Starter Template with React Navigation
+# TestApp - React Native Authentication Demo
 
-This is a minimal starter template for React Native apps using Expo and React Navigation.
+A React Native application with authentication flow, secure token storage, and a beautiful minimal UI.
 
-It includes the following:
+## Features
 
-- Example [Native Stack](https://reactnavigation.org/docs/native-stack-navigator) with a nested [Bottom Tab](https://reactnavigation.org/docs/bottom-tab-navigator)
-- Web support with [React Native for Web](https://necolas.github.io/react-native-web/)
-- TypeScript support and configured for React Navigation
-- Automatic [deep link](https://reactnavigation.org/docs/deep-linking) and [URL handling configuration](https://reactnavigation.org/docs/configuring-links)
-- Theme support [based on system appearance](https://reactnavigation.org/docs/themes/#using-the-operating-system-preferences)
-- Expo [Development Build](https://docs.expo.dev/develop/development-builds/introduction/) with [Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)
+- ✨ Beautiful, minimal, and intuitive UI
+- 🔐 Secure authentication with dummy token stored in Expo SecureStore
+- 📱 Tab navigation with Home and Profile screens
+- 🎨 Dark mode support
+- 🔄 Session persistence across app restarts
+- 🚪 Logout functionality with confirmation
+- ✅ Form validation for login
 
-## Getting Started
+## Prerequisites
 
-1. Create a new project using this template:
+- Node.js (v20.19.4 or higher recommended)
+- npm or yarn
+- Expo CLI
+- iOS Simulator (for iOS development) or Android Emulator (for Android development)
 
-   ```sh
-   npx create-expo-app@latest --template react-navigation/template
-   ```
+## Installation
 
-2. Edit the `app.json` file to configure the `name`, `slug`, `scheme` and bundle identifiers (`ios.bundleIdentifier` and `android.bundleIdentifier`) for your app.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd TestApp
+```
 
-3. Edit the `src/App.tsx` file to start working on your app.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Running the app
+## Running the App
 
-- Install the dependencies:
+### Development Build
 
-  ```sh
-  npm install
-  ```
+Start the Expo development server:
+```bash
+npm start
+```
 
-- Start the development server:
+### Run on iOS
+```bash
+npm run ios
+```
 
-  ```sh
-  npm start
-  ```
+### Run on Android
+```bash
+npm run android
+```
 
-- Build and run iOS and Android development builds:
+### Run on Web
+```bash
+npm run web
+```
 
-  ```sh
-  npm run ios
-  # or
-  npm run android
-  ```
+## Demo Credentials
 
-- In the terminal running the development server, press `i` to open the iOS simulator, `a` to open the Android device or emulator, or `w` to open the web browser.
+Use these credentials to login:
 
-## Notes
+**User 1:**
+- Email: `demo@example.com`
+- Password: `password123`
 
-This project uses a [development build](https://docs.expo.dev/develop/development-builds/introduction/) and cannot be run with [Expo Go](https://expo.dev/go). To run the app with Expo Go, edit the `package.json` file, remove the `expo-dev-client` package and `--dev-client` flag from the `start` script.
+**User 2:**
+- Email: `test@example.com`
+- Password: `test123`
 
-We highly recommend using the development builds for normal development and testing.
+## Project Structure
 
-The `ios` and `android` folder are gitignored in the project by default as they are automatically generated during the build process ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). This means that you should not edit these folders directly and use [config plugins](https://docs.expo.dev/config-plugins/) instead. However, if you need to edit these folders, you can remove them from the `.gitignore` file so that they are tracked by git.
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Button.tsx      # Custom button component
+│   ├── TextInput.tsx   # Custom text input with validation
+│   ├── ProfileIcon.tsx # Profile icon for tab bar
+│   └── index.ts        # Component exports
+├── context/            # React Context providers
+│   └── AuthContext.tsx # Authentication state management
+├── navigation/         # Navigation configuration
+│   ├── RootNavigator.tsx  # Main navigation setup
+│   ├── screens/        # Screen components
+│   │   ├── Login.tsx   # Login screen
+│   │   ├── Home.tsx    # Home screen
+│   │   ├── Profile.tsx # Profile screen
+│   │   └── NotFound.tsx # 404 screen
+│   └── index.tsx       # Navigation exports
+├── utils/              # Utility functions
+│   └── auth.ts         # Authentication utilities
+├── assets/             # Images and static assets
+└── App.tsx            # Root component
+```
 
-## Resources
+## Architecture
 
-- [React Navigation documentation](https://reactnavigation.org/)
-- [Expo documentation](https://docs.expo.dev/)
+### Authentication Flow
 
----
+1. **Login Screen**: Users enter email and password
+2. **Validation**: Form validation checks email format and password length
+3. **Token Generation**: Dummy token is generated upon successful login
+4. **Secure Storage**: Token and user data stored in Expo SecureStore
+5. **Session Persistence**: Auth state persists across app restarts
+6. **Logout**: Clears token from secure storage and returns to login
 
-Demo assets are from [lucide.dev](https://lucide.dev/)
+### State Management
+
+- **AuthContext**: Manages authentication state globally
+- React Context API for state sharing
+- Hooks (`useAuth`) for easy access to auth state
+
+### Security
+
+- Credentials stored using Expo SecureStore (iOS Keychain / Android Keystore)
+- No plaintext password storage
+- Token-based authentication simulation
+- Secure logout removes all stored credentials
+
+### UI/UX Features
+
+- Responsive design for different screen sizes
+- Keyboard handling with KeyboardAvoidingView
+- Loading states for async operations
+- Error handling with user-friendly messages
+- Dark mode support
+- Smooth transitions and animations
+- Confirmation dialogs for destructive actions
+
+## Reusable Components
+
+### Button Component
+
+A customizable button component with variants:
+- `primary`: Default blue button
+- `secondary`: Purple button
+- `outline`: Transparent with border
+
+Features:
+- Loading state with spinner
+- Disabled state
+- Custom styling support
+- Accessible
+
+### TextInput Component
+
+A form input component with:
+- Label and error message support
+- Secure text entry for passwords
+- Password visibility toggle
+- Focus state indicators
+- Dark mode support
+- Email and text input types
+
+## Validation Rules
+
+### Email Validation
+- Must be a valid email format (regex: `/^[^\s@]+@[^\s@]+\.[^\s@]+$/`)
+- Required field
+
+### Password Validation
+- Minimum 6 characters
+- Required field
+
+## Navigation Structure
+
+```
+RootNavigator
+├── Login (if not authenticated)
+└── Main (if authenticated)
+    ├── Home Tab
+    └── Profile Tab
+```
+
+## Technologies Used
+
+- React Native 0.81.4
+- Expo SDK 54
+- React Navigation 7.x
+- TypeScript
+- Expo SecureStore
+- React Hooks
+
+## Development Notes
+
+### Dummy Authentication
+
+This app uses dummy authentication for demonstration purposes:
+- No real backend API calls
+- User credentials are hardcoded in `src/utils/auth.ts`
+- Token generation is simulated locally
+- In production, replace with real API integration
+
+### Future Enhancements
+
+- [ ] Biometric authentication (Face ID / Touch ID)
+- [ ] Registration screen
+- [ ] Password reset functionality
+- [ ] Account lockout after failed attempts
+- [ ] Remember me functionality
+- [ ] Social login integration
+- [ ] Unit tests for auth logic
+- [ ] E2E tests
+
+## Troubleshooting
+
+### Common Issues
+
+**App won't start:**
+- Clear cache: `npx expo start -c`
+- Rebuild: `rm -rf node_modules && npm install`
+
+**SecureStore errors:**
+- Ensure you're running on a physical device or simulator (not web)
+- Check iOS/Android permissions
+
+**Navigation issues:**
+- Clear app data from device
+- Restart the app
+
+## License
+
+This project is for demonstration purposes.
+
+## Credits
+
+Built with React Native and Expo.

@@ -10,7 +10,10 @@
     "scheme": "testapp",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.testapp"
+      "bundleIdentifier": "com.testapp",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +33,8 @@
           "backgroundColor": "#ffffff",
           "image": "./assets/splash-icon.png"
         }
-      ]
+      ],
+      "expo-secure-store"
     ]
   }
 }
