@@ -22,6 +22,7 @@ import {
   getPasswordStrength,
 } from "../../utils/validation";
 import useAppStore from "../../stores/appStore";
+import useSignupStore from "../../stores/signupStore";
 import { User } from "../../utils/auth";
 import { storeToken, storeUser, generateToken } from "../../utils/auth";
 import { useAuth } from "../../context/AuthContext";
@@ -46,15 +47,34 @@ export function SignUp({ navigation }: SignUpProps) {
   const { login } = useAuth();
   const insets = useSafeAreaInsets();
 
-  // Form state
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // Get persisted form data from store
+  const {
+    email: storedEmail,
+    setEmail: setStoredEmail,
+    password: storedPassword,
+    setPassword: setStoredPassword,
+    confirmPassword: storedConfirmPassword,
+    setConfirmPassword: setStoredConfirmPassword,
+    firstName: storedFirstName,
+    setFirstName: setStoredFirstName,
+    lastName: storedLastName,
+    setLastName: setStoredLastName,
+    phoneNumber: storedPhoneNumber,
+    setPhoneNumber: setStoredPhoneNumber,
+    selectedCountry: storedSelectedCountry,
+    setSelectedCountry: setStoredSelectedCountry,
+    clearForm,
+  } = useSignupStore();
+
+  // Form state - initialize with persisted values
+  const [email, setEmail] = useState(storedEmail);
+  const [password, setPassword] = useState(storedPassword);
+  const [confirmPassword, setConfirmPassword] = useState(storedConfirmPassword);
+  const [firstName, setFirstName] = useState(storedFirstName);
+  const [lastName, setLastName] = useState(storedLastName);
+  const [phoneNumber, setPhoneNumber] = useState(storedPhoneNumber);
   const [selectedCountry, setSelectedCountry] = useState<Country>(
-    callingCodes.find((c) => c.code === "US") || (callingCodes[0] as Country)
+    storedSelectedCountry
   );
 
   // Error state
@@ -204,6 +224,9 @@ export function SignUp({ navigation }: SignUpProps) {
       // Auto-login the user
       await login(email.trim(), password);
 
+      // Clear the persisted form data after successful sign-up
+      clearForm();
+
       Alert.alert("Success", "Your account has been created successfully!", [
         { text: "OK" },
       ]);
@@ -261,6 +284,7 @@ export function SignUp({ navigation }: SignUpProps) {
             value={email}
             onChangeText={(text) => {
               setEmail(text);
+              setStoredEmail(text);
               if (emailError) {
                 const validation = validateEmail(text);
                 setEmailError(validation.error);
@@ -282,6 +306,7 @@ export function SignUp({ navigation }: SignUpProps) {
             value={firstName}
             onChangeText={(text) => {
               setFirstName(text);
+              setStoredFirstName(text);
               if (firstNameError) {
                 const validation = validateFirstName(text);
                 setFirstNameError(validation.error);
@@ -302,6 +327,7 @@ export function SignUp({ navigation }: SignUpProps) {
             value={lastName}
             onChangeText={(text) => {
               setLastName(text);
+              setStoredLastName(text);
               if (lastNameError) {
                 const validation = validateLastName(text);
                 setLastNameError(validation.error);
@@ -321,7 +347,10 @@ export function SignUp({ navigation }: SignUpProps) {
             <View style={styles.countryCodeContainer}>
               <CountryCodePicker
                 selectedCountry={selectedCountry}
-                onSelect={setSelectedCountry}
+                onSelect={(country) => {
+                  setSelectedCountry(country);
+                  setStoredSelectedCountry(country);
+                }}
               />
             </View>
             <View style={styles.phoneNumberContainer}>
@@ -332,6 +361,7 @@ export function SignUp({ navigation }: SignUpProps) {
                   // Remove non-digit characters
                   const cleaned = text.replace(/\D/g, "");
                   setPhoneNumber(cleaned);
+                  setStoredPhoneNumber(cleaned);
                   if (phoneNumberError) {
                     const validation = validatePhoneNumber(cleaned);
                     setPhoneNumberError(validation.error);
@@ -355,6 +385,7 @@ export function SignUp({ navigation }: SignUpProps) {
             value={password}
             onChangeText={(text) => {
               setPassword(text);
+              setStoredPassword(text);
               if (passwordError) {
                 const validation = validatePassword(text);
                 setPasswordError(validation.error);
@@ -403,6 +434,7 @@ export function SignUp({ navigation }: SignUpProps) {
             value={confirmPassword}
             onChangeText={(text) => {
               setConfirmPassword(text);
+              setStoredConfirmPassword(text);
               if (confirmPasswordError) {
                 const validation = validateConfirmPassword(password, text);
                 setConfirmPasswordError(validation.error);

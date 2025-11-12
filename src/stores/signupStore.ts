@@ -25,6 +25,7 @@ interface SignupStore {
   setPassword: (password: string) => void;
   confirmPassword: string;
   setConfirmPassword: (confirmPassword: string) => void;
+  clearForm: () => void;
 }
 
 const useSignupStore = create<SignupStore>()(
@@ -46,6 +47,18 @@ const useSignupStore = create<SignupStore>()(
       setPassword: (password) => set({ password }),
       confirmPassword: "",
       setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
+      clearForm: () =>
+        set({
+          email: "",
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          password: "",
+          confirmPassword: "",
+          selectedCountry:
+            callingCodes.find((c) => c.code === "US") ||
+            (callingCodes[0] as Country),
+        }),
     }),
     {
       name: "signup-storage",
