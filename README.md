@@ -28,10 +28,15 @@ A React Native application with authentication flow, secure token storage, and a
 
 ## Setup Instructions
 
+### Prequisite
+
+Setup the development environment by following the step from expo documentation:
+https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=physical&mode=development-build&buildEnv=local
+
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Valerelabs/expo-onboarding-test-app.git
 cd TestApp
 ```
 
@@ -50,14 +55,12 @@ This will install all required dependencies including:
 - Expo SecureStore for secure credential storage
 - Testing libraries (Jest, React Native Testing Library)
 
-### 3. iOS Setup (macOS only)
+### 3. EXPO Prebuild
 
-If running on iOS, install CocoaPods dependencies:
+Run the prebuild command after npm install
 
 ```bash
-cd ios
-pod install
-cd ..
+npx expo prebuild --clean
 ```
 
 ### 4. Android Setup
