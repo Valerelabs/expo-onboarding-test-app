@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { getToken, getUser, login as authLogin, removeToken, User } from '../utils/auth';
+import useAppStore from '../stores/appStore';
 
 interface AuthContextType {
   user: User | null;
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { getUsers } = useAppStore();
 
   useEffect(() => {
     // Check if user is already logged in
@@ -36,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     try {
-      const { user: userData } = await authLogin({ email, password });
+      const { user: userData } = await authLogin({ email, password }, getUsers);
       setUser(userData);
     } catch (error) {
       throw error;

@@ -15,7 +15,7 @@ export function Profile() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
-  const backgroundColor = isDark ? "#000000" : "#F2F2F7";
+  const backgroundColor = isDark ? "#000000" : "#FFFFFF";
   const cardBackground = isDark ? "#1C1C1E" : "#FFFFFF";
   const textColor = isDark ? "#FFFFFF" : "#000000";
   const subtextColor = isDark ? "#8E8E93" : "#6C6C70";
@@ -65,26 +65,51 @@ export function Profile() {
           </Text>
           <View style={styles.detailRow}>
             <Text style={[styles.detailLabel, { color: subtextColor }]}>
-              User ID
-            </Text>
-            <Text style={[styles.detailValue, { color: textColor }]}>
-              {user?.id}
-            </Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={[styles.detailLabel, { color: subtextColor }]}>
               Email
             </Text>
             <Text style={[styles.detailValue, { color: textColor }]}>
               {user?.email}
             </Text>
           </View>
+          {user?.firstName && (
+            <View style={styles.detailRow}>
+              <Text style={[styles.detailLabel, { color: subtextColor }]}>
+                First Name
+              </Text>
+              <Text style={[styles.detailValue, { color: textColor }]}>
+                {user?.firstName}
+              </Text>
+            </View>
+          )}
+          {user?.lastName && (
+            <View style={styles.detailRow}>
+              <Text style={[styles.detailLabel, { color: subtextColor }]}>
+                Last Name
+              </Text>
+              <Text style={[styles.detailValue, { color: textColor }]}>
+                {user?.lastName}
+              </Text>
+            </View>
+          )}
+          {user?.phoneNumber && (
+            <View style={styles.detailRow}>
+              <Text style={[styles.detailLabel, { color: subtextColor }]}>
+                Phone
+              </Text>
+              <Text style={[styles.detailValue, { color: textColor }]}>
+                {user?.countryCode} {user?.phoneNumber}
+              </Text>
+            </View>
+          )}
           <View style={styles.detailRow}>
             <Text style={[styles.detailLabel, { color: subtextColor }]}>
-              Name
+              User ID
             </Text>
-            <Text style={[styles.detailValue, { color: textColor }]}>
-              {user?.name}
+            <Text
+              style={[styles.detailValue, { color: textColor }]}
+              numberOfLines={1}
+            >
+              {user?.id}
             </Text>
           </View>
         </View>

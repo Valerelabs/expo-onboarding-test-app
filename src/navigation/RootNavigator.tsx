@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, View, ActivityIndicator, StyleSheet } from "react-native";
 import { useAuth } from "../context/AuthContext";
 import { Login } from "./screens/Login";
+import { SignUp } from "./screens/SignUp";
 import { Home } from "./screens/Home";
 import { Profile } from "./screens/Profile";
 import { NotFound } from "./screens/NotFound";
@@ -73,7 +74,10 @@ export function RootNavigator({ theme }: { theme: any }) {
     <NavigationContainer theme={theme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!isAuthenticated ? (
-          <Stack.Screen name="Login" component={Login} />
+          <>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Main" component={TabNavigator} />

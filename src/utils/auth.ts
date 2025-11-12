@@ -3,26 +3,15 @@ import * as SecureStore from "expo-secure-store";
 const TOKEN_KEY = "auth_token";
 const USER_KEY = "user_data";
 
-// Dummy user database (in real app, this would be on backend)
-const DUMMY_USERS = [
-  {
-    id: "1",
-    email: "demo@example.com",
-    password: "password123",
-    name: "Demo User",
-  },
-  {
-    id: "2",
-    email: "test@example.com",
-    password: "test123",
-    name: "Test User",
-  },
-];
-
 export interface User {
   id: string;
   email: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  countryCode?: string;
+  password?: string; // Only stored in appStore, never in SecureStore
 }
 
 export interface LoginCredentials {
@@ -31,7 +20,7 @@ export interface LoginCredentials {
 }
 
 // Generate a dummy JWT-like token
-const generateToken = (userId: string): string => {
+export const generateToken = (userId: string): string => {
   const timestamp = Date.now();
   const randomString = Math.random().toString(36).substring(7);
   return `${userId}.${timestamp}.${randomString}`;
@@ -89,14 +78,18 @@ export const getUser = async (): Promise<User | null> => {
   }
 };
 
-// Login function (dummy authentication)
+// Login function - authenticates against users in appStore
 export const login = async (
-  credentials: LoginCredentials
+  credentials: LoginCredentials,
+  getUsersFromStore: () => User[]
 ): Promise<{ token: string; user: User }> => {
   // Simulate API call delay
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  const user = DUMMY_USERS.find(
+  // Get users from appStore
+  const users = getUsersFromStore();
+  
+  const user = users.find(
     (u) =>
       u.email.toLowerCase() === credentials.email.toLowerCase() &&
       u.password === credentials.password
@@ -107,10 +100,16 @@ export const login = async (
   }
 
   const token = generateToken(user.id);
+  
+  // Store user data without password
   const userData: User = {
     id: user.id,
     email: user.email,
     name: user.name,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phoneNumber: user.phoneNumber,
+    countryCode: user.countryCode,
   };
 
   await storeToken(token);
@@ -128,14 +127,14 @@ export const validateToken = async (token: string): Promise<boolean> => {
   return parts.length === 3;
 };
 
-// Email validation
+// Email validation (simple version for backward compatibility)
 export const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-// Password validation
+// Password validation (simple version for backward compatibility)
 export const validatePassword = (password: string): boolean => {
-  // At least 6 characters
+  // At least 8 characters for signup, but keep 6 for backward compatibility with existing login
   return password.length >= 6;
 };

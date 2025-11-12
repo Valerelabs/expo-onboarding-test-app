@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,47 +8,55 @@ import {
   ScrollView,
   Alert,
   useColorScheme,
-} from 'react-native';
-import { Button, TextInput } from '../../components';
-import { useAuth } from '../../context/AuthContext';
-import { validateEmail, validatePassword } from '../../utils/auth';
+  TouchableOpacity,
+} from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Button, TextInput } from "../../components";
+import { useAuth } from "../../context/AuthContext";
+import { validateEmail, validatePassword } from "../../utils/auth";
 
-export function Login() {
+type LoginScreenNavigationProp = NativeStackNavigationProp<any, "Login">;
+
+interface LoginProps {
+  navigation: LoginScreenNavigationProp;
+}
+
+export function Login({ navigation }: LoginProps) {
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  const backgroundColor = isDark ? '#000000' : '#FFFFFF';
-  const textColor = isDark ? '#FFFFFF' : '#000000';
-  const subtextColor = isDark ? '#8E8E93' : '#6C6C70';
+  const isDark = colorScheme === "dark";
+  const backgroundColor = isDark ? "#000000" : "#FFFFFF";
+  const textColor = isDark ? "#FFFFFF" : "#000000";
+  const subtextColor = isDark ? "#8E8E93" : "#6C6C70";
 
   const validateForm = (): boolean => {
     let isValid = true;
 
     // Reset errors
-    setEmailError('');
-    setPasswordError('');
+    setEmailError("");
+    setPasswordError("");
 
     // Validate email
     if (!email.trim()) {
-      setEmailError('Email is required');
+      setEmailError("Email is required");
       isValid = false;
     } else if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError("Please enter a valid email address");
       isValid = false;
     }
 
     // Validate password
     if (!password) {
-      setPasswordError('Password is required');
+      setPasswordError("Password is required");
       isValid = false;
     } else if (!validatePassword(password)) {
-      setPasswordError('Password must be at least 6 characters');
+      setPasswordError("Password must be at least 6 characters");
       isValid = false;
     }
 
@@ -66,9 +74,9 @@ export function Login() {
       // Navigation will be handled by the auth flow
     } catch (error: any) {
       Alert.alert(
-        'Login Failed',
-        error.message || 'An error occurred during login. Please try again.',
-        [{ text: 'OK' }]
+        "Login Failed",
+        error.message || "An error occurred during login. Please try again.",
+        [{ text: "OK" }]
       );
     } finally {
       setIsLoading(false);
@@ -78,7 +86,7 @@ export function Login() {
   return (
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView
         contentContainerStyle={styles.scrollContent}
@@ -98,7 +106,7 @@ export function Login() {
             value={email}
             onChangeText={(text) => {
               setEmail(text);
-              setEmailError('');
+              setEmailError("");
             }}
             placeholder="Enter your email"
             keyboardType="email-address"
@@ -112,7 +120,7 @@ export function Login() {
             value={password}
             onChangeText={(text) => {
               setPassword(text);
-              setPasswordError('');
+              setPasswordError("");
             }}
             placeholder="Enter your password"
             secureTextEntry
@@ -128,16 +136,16 @@ export function Login() {
             style={styles.loginButton}
           />
 
-          <View style={styles.demoInfo}>
-            <Text style={[styles.demoText, { color: subtextColor }]}>
-              Demo Credentials:
+          <View style={styles.signUpLinkContainer}>
+            <Text style={[styles.signUpText, { color: subtextColor }]}>
+              Don't have an account?{" "}
             </Text>
-            <Text style={[styles.demoCredentials, { color: subtextColor }]}>
-              Email: demo@example.com
-            </Text>
-            <Text style={[styles.demoCredentials, { color: subtextColor }]}>
-              Password: password123
-            </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SignUp")}
+              disabled={isLoading}
+            >
+              <Text style={styles.signUpLink}>Sign Up</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -151,45 +159,42 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: 24,
     paddingVertical: 40,
   },
   header: {
     marginBottom: 48,
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
   form: {
-    width: '100%',
+    width: "100%",
   },
   loginButton: {
     marginTop: 8,
   },
-  demoInfo: {
-    marginTop: 32,
-    padding: 16,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
-    borderRadius: 12,
-    alignItems: 'center',
+  signUpLinkContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 24,
   },
-  demoText: {
+  signUpText: {
     fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 8,
   },
-  demoCredentials: {
-    fontSize: 13,
-    marginTop: 4,
+  signUpLink: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#007AFF",
   },
 });
-

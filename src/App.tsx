@@ -6,6 +6,7 @@ import * as React from "react";
 import { useColorScheme } from "react-native";
 import { RootNavigator } from "./navigation/RootNavigator";
 import { AuthProvider } from "./context/AuthContext";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 Asset.loadAsync([...NavigationAssets, require("./assets/newspaper.png")]);
 
@@ -20,8 +21,10 @@ export function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <RootNavigator theme={theme} />
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <RootNavigator theme={theme} />
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }
