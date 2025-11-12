@@ -1,11 +1,12 @@
-import { Text, Button } from '@react-navigation/elements';
-import { StyleSheet, View } from 'react-native';
+import { Text } from "@react-navigation/elements";
+import { StyleSheet, View } from "react-native";
+import { Button } from "../../components";
 
-export function NotFound() {
+export function NotFound({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
       <Text>404</Text>
-      <Button screen="HomeTabs">Go to Home</Button>
+      <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
     </View>
   );
 }
@@ -13,8 +14,8 @@ export function NotFound() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     gap: 10,
   },
 });
